@@ -1,26 +1,29 @@
 import { useState } from 'react';
 import { Input } from '../Input/Input';
 import Spiner from '../Spiner/Spiner';
-import { ErrorMessage } from '../ErrorMessage';
+import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 
-export type StateFormProps = {
-	isLoading: boolean;
-	isError: string;
-};
-
-const StateFormValue: StateFormProps = {
+const StateFormValue = {
 	isLoading: false,
-	isError: '',
+	main: '',
+	emailError: 'campo obrigatorio',
+	passwordError: 'campo obrigatorio',
 };
 
 export function Form() {
-	const [form, setForm] = useState<StateFormProps>(StateFormValue);
+	const [form, setForm] = useState(StateFormValue);
 
 	return (
 		<form className="flex flex-col w-[500px] mx-auto bg-white p-8 rounded-xl self-center shadow-md">
 			<h2 className="text-primaryDark text-center text-2xl uppercase font-bold">Login</h2>
-			<Input type="email" name="email" placeholder="digite seu e-mail" />
-			<Input type="password" name="password" placeholder="digite seu senha" />
+			<Input type="email" name="email" placeholder="digite seu e-mail" testid="email-status" title={form.emailError} />
+			<Input
+				type="password"
+				name="password"
+				placeholder="digite seu senha"
+				testid="password-status"
+				title={form.passwordError}
+			/>
 			<button
 				type="submit"
 				data-testid="submit"
@@ -30,7 +33,7 @@ export function Form() {
 				ENTRAR
 			</button>
 			<div data-testid="error-wrap">
-				{form.isError && <ErrorMessage isError={form.isError} />}
+				{form.main && <ErrorMessage isError={form.main} />}
 				{form.isLoading && <Spiner />}
 			</div>
 			<div className="text-center  hover:text-primary font-bold transition-all">
