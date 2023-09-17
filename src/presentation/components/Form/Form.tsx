@@ -23,7 +23,9 @@ export function Form() {
 			<Input type="password" name="password" placeholder="digite seu senha" />
 			<button
 				type="submit"
-				className="bg-primary text-white rounded-xl text-lg border-none leading-[60px] hover:opacity-90 mb-6"
+				data-testid="submit"
+				disabled
+				className="bg-primary text-white rounded-xl text-lg border-none leading-[60px] hover:opacity-90 mb-6 disabled:opacity-80"
 			>
 				ENTRAR
 			</button>
