@@ -63,7 +63,7 @@ describe('<Login />', () => {
 			validationSpy,
 		} = makeSut();
 
-		const errorMessage = faker.random.words();
+		const errorMessage = faker.animal.cat();
 		validationSpy.errorMessage = errorMessage;
 
 		const emailInput = getByTestId('email');
@@ -72,5 +72,21 @@ describe('<Login />', () => {
 		const emailStatus = getByTestId('email-status');
 		expect(emailStatus.title).toBe(errorMessage);
 		expect(emailStatus.textContent).toBe('🔴');
+	});
+	it('Should show password error if validation  fails', () => {
+		const {
+			sut: { getByTestId },
+			validationSpy,
+		} = makeSut();
+
+		const errorMessage = faker.animal.cat();
+		validationSpy.errorMessage = errorMessage;
+
+		const passwordInput = getByTestId('password');
+
+		fireEvent.input(passwordInput, { target: { value: faker.internet.email() } });
+		const passwordStatus = getByTestId('password-status');
+		expect(passwordStatus.title).toBe(errorMessage);
+		expect(passwordStatus.textContent).toBe('🔴');
 	});
 });
