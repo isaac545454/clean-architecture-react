@@ -1,9 +1,23 @@
-import { render } from '@testing-library/react';
+import { RenderResult, render } from '@testing-library/react';
 import { Login } from './Login';
+
+type SutTypes = {
+	sut: RenderResult;
+};
+
+const makeSut = (): SutTypes => {
+	const sut = render(<Login />);
+
+	return {
+		sut,
+	};
+};
 
 describe('<Login />', () => {
 	it('Should start with initial state', () => {
-		const { getByTestId } = render(<Login />);
+		const { sut } = makeSut();
+		const { getByTestId } = sut;
+
 		const errorWrap = getByTestId('error-wrap');
 		expect(errorWrap.childElementCount).toBe(0);
 
