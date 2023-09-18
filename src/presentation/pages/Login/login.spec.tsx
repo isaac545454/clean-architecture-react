@@ -48,6 +48,7 @@ describe('<Login />', () => {
 
 		const passwordInput = getByTestId('password');
 		const password = faker.internet.password();
+
 		fireEvent.input(emailInput, { target: { value: email } });
 		expect(validationSpy.fieldName).toEqual('email');
 		expect(validationSpy.fieldValue).toEqual(email);
@@ -55,5 +56,21 @@ describe('<Login />', () => {
 		fireEvent.input(passwordInput, { target: { value: password } });
 		expect(validationSpy.fieldName).toEqual('password');
 		expect(validationSpy.fieldValue).toEqual(password);
+	});
+	it('Should show email error if validation  fails', () => {
+		const {
+			sut: { getByTestId },
+			validationSpy,
+		} = makeSut();
+
+		const errorMessage = faker.random.words();
+		validationSpy.errorMessage = errorMessage;
+
+		const emailInput = getByTestId('email');
+
+		fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
+		const emailStatus = getByTestId('email-status');
+		expect(emailStatus.title).toBe(errorMessage);
+		expect(emailStatus.textContent).toBe('🔴');
 	});
 });
