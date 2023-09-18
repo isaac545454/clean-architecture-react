@@ -1,3 +1,3 @@
 export interface Valitation {
-	validate(input: object): string;
+	validate(fieldName: string, fieldValue: string): string;
 }

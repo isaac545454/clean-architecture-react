@@ -17,7 +17,7 @@ export const Form: React.FC<LoginProps> = ({ validation }) => {
 	const [form, setForm] = useState(StateFormValue);
 
 	const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		validation.validate({ [e.target.name]: e.target.value });
+		validation.validate(e.target.name, e.target.value);
 		setForm(pre => {
 			return {
 				...pre,
