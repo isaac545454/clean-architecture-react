@@ -87,21 +87,6 @@ describe('<Login />', () => {
 		expect(passwordStatus.title).toBe(errorMessage);
 		expect(passwordStatus.textContent).toBe('🔴');
 	});
-	it('Should show valid password state if validation succeeds', () => {
-		const {
-			sut: { getByTestId },
-			validationSpy,
-		} = makeSut();
-
-		validationSpy.errorMessage = '';
-
-		const passwordInput = getByTestId('password');
-
-		fireEvent.input(passwordInput, { target: { value: faker.internet.password() } });
-		const passwordStatus = getByTestId('password-status');
-		expect(passwordStatus.title).toBe('tudo certo');
-		expect(passwordStatus.textContent).toBe('🟢');
-	});
 	it('Should show valid email state if validation succeeds', () => {
 		const {
 			sut: { getByTestId },
@@ -116,5 +101,20 @@ describe('<Login />', () => {
 		const emailStatus = getByTestId('email-status');
 		expect(emailStatus.title).toBe('tudo certo');
 		expect(emailStatus.textContent).toBe('🟢');
+	});
+	it('Should show valid password state if validation succeeds', () => {
+		const {
+			sut: { getByTestId },
+			validationSpy,
+		} = makeSut();
+
+		validationSpy.errorMessage = '';
+
+		const passwordInput = getByTestId('password');
+
+		fireEvent.input(passwordInput, { target: { value: faker.internet.password() } });
+		const passwordStatus = getByTestId('password-status');
+		expect(passwordStatus.title).toBe('tudo certo');
+		expect(passwordStatus.textContent).toBe('🟢');
 	});
 });
