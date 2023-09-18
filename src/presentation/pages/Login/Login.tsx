@@ -1,9 +1,14 @@
+import { Valitation } from '@/presentation/protocols/validation';
 import { Form } from '../../components/Form';
 
-export const Login: React.FC = () => {
+export type LoginProps = {
+	validation: Valitation;
+};
+
+export const Login: React.FC<LoginProps> = ({ validation }) => {
 	return (
 		<div className="flex flex-col  justify-between">
-			<Form />
+			<Form validation={validation} />
 		</div>
 	);
 };
