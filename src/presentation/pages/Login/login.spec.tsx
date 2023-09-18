@@ -81,9 +81,7 @@ describe('<Login />', () => {
 
 		const errorMessage = faker.animal.cat();
 		validationSpy.errorMessage = errorMessage;
-
 		const passwordInput = getByTestId('password');
-
 		fireEvent.input(passwordInput, { target: { value: faker.internet.email() } });
 		const passwordStatus = getByTestId('password-status');
 		expect(passwordStatus.title).toBe(errorMessage);
@@ -103,5 +101,20 @@ describe('<Login />', () => {
 		const passwordStatus = getByTestId('password-status');
 		expect(passwordStatus.title).toBe('tudo certo');
 		expect(passwordStatus.textContent).toBe('🟢');
+	});
+	it('Should show valid email state if validation succeeds', () => {
+		const {
+			sut: { getByTestId },
+			validationSpy,
+		} = makeSut();
+
+		validationSpy.errorMessage = '';
+
+		const emailInput = getByTestId('email');
+
+		fireEvent.input(emailInput, { target: { value: faker.internet.password() } });
+		const emailStatus = getByTestId('email-status');
+		expect(emailStatus.title).toBe('tudo certo');
+		expect(emailStatus.textContent).toBe('🟢');
 	});
 });
