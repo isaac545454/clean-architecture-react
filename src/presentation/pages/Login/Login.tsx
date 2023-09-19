@@ -2,7 +2,7 @@ import { Valitation } from '@/presentation/protocols/validation';
 import { Form } from '../../components/Form';
 
 export type LoginProps = {
-	validation: Valitation;
+	validate(name: string, value: string): unknown;
 };
 
 export const Login: React.FC<LoginProps> = ({ validation }) => {

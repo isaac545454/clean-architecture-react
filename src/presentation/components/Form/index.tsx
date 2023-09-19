@@ -1,33 +1,13 @@
-import { useState } from 'react';
 import { Input } from '../Input/Input';
 import Spiner from '../Spiner/Spiner';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import { LoginProps } from '@/presentation/pages/Login';
-
-const StateFormValue = {
-	isLoading: false,
-	main: '',
-	emailError: 'campo obrigatorio',
-	passwordError: 'campo obrigatorio',
-	email: '',
-	password: '',
-};
+import { useForm } from './useForm';
 
 export const Form: React.FC<LoginProps> = ({ validation }) => {
-	const [form, setForm] = useState(StateFormValue);
-
-	const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setForm(pre => {
-			return {
-				...pre,
-				[e.target.name]: e.target.value,
-				[`${e.target.name}Error`]: validation.validate(e.target.name, e.target.value),
-			};
-		});
-	};
-
+	const { changeInput, form, onSubmit } = useForm({ validation });
 	return (
-		<form className="flex flex-col w-[500px] mx-auto bg-white p-8 rounded-xl self-center shadow-md">
+		<form className="flex flex-col w-[500px] mx-auto bg-white p-8 rounded-xl self-center shadow-md" onSubmit={onSubmit}>
 			<h2 className="text-primaryDark text-center text-2xl uppercase font-bold">Login</h2>
 			<Input
 				type="email"
