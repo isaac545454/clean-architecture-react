@@ -105,10 +105,9 @@ describe('<Login />', () => {
 	it('Should show valid password state if validation succeeds', () => {
 		const {
 			sut: { getByTestId },
-			validationSpy,
 		} = makeSut();
 
-		validationSpy.errorMessage = '';
+		// validationSpy.errorMessage = '';
 
 		const passwordInput = getByTestId('password');
 
@@ -116,5 +115,37 @@ describe('<Login />', () => {
 		const passwordStatus = getByTestId('password-status');
 		expect(passwordStatus.title).toBe('tudo certo');
 		expect(passwordStatus.textContent).toBe('🟢');
+	});
+
+	it('shold enabled submit button if form is valid', () => {
+		const {
+			sut: { getByTestId },
+		} = makeSut();
+
+		const emailInput = getByTestId('email');
+		fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
+
+		const passwordInput = getByTestId('password');
+		fireEvent.input(passwordInput, { target: { value: faker.internet.password() } });
+
+		const ButtonSubmit = getByTestId('submit') as HTMLButtonElement;
+		expect(ButtonSubmit.disabled).toBe(false);
+	});
+	it(' shold show spinner on submit', () => {
+		const {
+			sut: { getByTestId },
+		} = makeSut();
+
+		const emailInput = getByTestId('email');
+		fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
+
+		const passwordInput = getByTestId('password');
+		fireEvent.input(passwordInput, { target: { value: faker.internet.password() } });
+
+		const ButtonSubmit = getByTestId('submit');
+		fireEvent.click(ButtonSubmit);
+
+		const spinner = getByTestId('spinner');
+		expect(spinner).toBeTruthy();
 	});
 });
