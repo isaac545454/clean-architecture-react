@@ -4,8 +4,9 @@ import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import { LoginProps } from '@/presentation/pages/Login';
 import { useForm } from './useForm';
 
-export const Form: React.FC<LoginProps> = ({ validation }) => {
-	const { changeInput, form, onSubmit } = useForm({ validation });
+export const Form: React.FC<LoginProps> = ({ validation, authenticationSpy }) => {
+	const { changeInput, form, onSubmit } = useForm({ validation, authenticationSpy });
+
 	return (
 		<form className="flex flex-col w-[500px] mx-auto bg-white p-8 rounded-xl self-center shadow-md" onSubmit={onSubmit}>
 			<h2 className="text-primaryDark text-center text-2xl uppercase font-bold">Login</h2>

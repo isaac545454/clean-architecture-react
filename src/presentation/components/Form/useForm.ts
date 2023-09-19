@@ -2,7 +2,7 @@ import { LoginProps } from '@/presentation/pages/Login';
 import { useState } from 'react';
 import { StateFormValue } from './state';
 
-export const useForm = ({ validation }: LoginProps) => {
+export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
 	const [form, setForm] = useState(StateFormValue);
 
 	const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,13 +15,18 @@ export const useForm = ({ validation }: LoginProps) => {
 		});
 	};
 
-	const onSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+	const onSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
 
 		setForm(prev => ({
 			...prev,
 			isLoading: true,
 		}));
+
+		await authenticationSpy.auth({
+			email: form.email,
+			password: form.password,
+		});
 	};
 
 	return {
