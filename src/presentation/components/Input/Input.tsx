@@ -8,7 +8,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 	return (
 		<div className="relative">
 			<input ref={ref} {...res} className={styles.Input} />
-
 			<span
 				title={title ? title : 'tudo certo'}
 				data-testid={testid}

@@ -52,7 +52,7 @@ export const Form: React.FC<LoginProps> = ({ validation }) => {
 			<button
 				type="submit"
 				data-testid="submit"
-				disabled
+				disabled={!!form.emailError || !!form.passwordError}
 				className="bg-primary text-white rounded-xl text-lg border-none leading-[60px] hover:opacity-90 mb-6 disabled:opacity-80"
 			>
 				ENTRAR
