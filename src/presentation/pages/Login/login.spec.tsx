@@ -183,4 +183,18 @@ describe('<Login />', () => {
 
 		expect(authenticationSpy.callsCount).toBe(1);
 	});
+	it(' shold not call Authentication if form is invalid ', () => {
+		const { sut, authenticationSpy, validationSpy } = makeSut();
+
+		const errorMessage = faker.animal.cat();
+		validationSpy.errorMessage = errorMessage;
+
+		populateEmailField({ sut });
+
+		const FormElement = sut.getByTestId('form');
+
+		fireEvent.submit(FormElement);
+
+		expect(authenticationSpy.callsCount).toBe(0);
+	});
 });
