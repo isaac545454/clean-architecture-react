@@ -16,6 +16,7 @@
   "dependencies": {
     "@faker-js/faker": "^8.0.2",
     "axios": "^1.5.0",
+    "jest-localstorage-mock": "^2.4.26",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
