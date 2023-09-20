@@ -18,7 +18,7 @@ export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
 
-		if (form.isLoading) return;
+		if (form.isLoading || form.emailError || form.passwordError) return;
 
 		setForm(prev => ({
 			...prev,

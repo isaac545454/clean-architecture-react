@@ -8,7 +8,11 @@ export const Form: React.FC<LoginProps> = ({ validation, authenticationSpy }) =>
 	const { changeInput, form, onSubmit } = useForm({ validation, authenticationSpy });
 
 	return (
-		<form className="flex flex-col w-[500px] mx-auto bg-white p-8 rounded-xl self-center shadow-md" onSubmit={onSubmit}>
+		<form
+			className="flex flex-col w-[500px] mx-auto bg-white p-8 rounded-xl self-center shadow-md"
+			data-testid="form"
+			onSubmit={onSubmit}
+		>
 			<h2 className="text-primaryDark text-center text-2xl uppercase font-bold">Login</h2>
 			<Input
 				type="email"
