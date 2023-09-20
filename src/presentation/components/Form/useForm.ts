@@ -1,6 +1,7 @@
 import { LoginProps } from '@/presentation/pages/Login';
 import { useState } from 'react';
 import { StateFormValue } from './state';
+import { InvalidCredencialsError } from '@/Domain/error';
 
 export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
 	const [form, setForm] = useState(StateFormValue);
@@ -20,15 +21,25 @@ export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
 
 		if (form.isLoading || form.emailError || form.passwordError) return;
 
-		setForm(prev => ({
-			...prev,
-			isLoading: true,
-		}));
-
-		await authenticationSpy.auth({
-			email: form.email,
-			password: form.password,
-		});
+		try {
+			setForm(prev => ({
+				...prev,
+				isLoading: true,
+			}));
+			await authenticationSpy.auth({
+				email: form.email,
+				password: form.password,
+			});
+		} catch (err: any) {
+			console.log(err);
+			if (err instanceof InvalidCredencialsError) {
+				setForm(prev => ({
+					...prev,
+					isLoading: false,
+					main: err.message,
+				}));
+			}
+		}
 	};
 
 	return {
