@@ -18,6 +18,8 @@ export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
 
+		if (form.isLoading) return;
+
 		setForm(prev => ({
 			...prev,
 			isLoading: true,
