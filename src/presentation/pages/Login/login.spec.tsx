@@ -1,8 +1,9 @@
-import { RenderResult, render, fireEvent, cleanup } from '@testing-library/react';
+import { RenderResult, render, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { Login } from './Login';
 import { ValidationSpy } from '@/presentation/test';
 import { faker } from '@faker-js/faker';
 import { AuthenticationSpy } from '@/presentation/test/mock-authentication-spy';
+import { InvalidCredencialsError } from '@/Domain/error';
 
 type SutTypes = {
 	sut: RenderResult;
@@ -196,5 +197,21 @@ describe('<Login />', () => {
 		fireEvent.submit(FormElement);
 
 		expect(authenticationSpy.callsCount).toBe(0);
+	});
+	it(' shold present error if Authentication fails ', async () => {
+		const { sut, authenticationSpy } = makeSut();
+
+		const invalidCredencialsError = new InvalidCredencialsError();
+		jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(invalidCredencialsError));
+
+		simulateValidSubmit({ sut });
+
+		const errorWrap = sut.getByTestId('error-wrap');
+		await waitFor(() => errorWrap);
+
+		const mainError = sut.getByTestId('main-error');
+		expect(mainError.textContent).toBe(invalidCredencialsError.message);
+
+		expect(errorWrap.childElementCount).toBe(1);
 	});
 });
