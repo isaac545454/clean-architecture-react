@@ -4,6 +4,7 @@ import { ValidationSpy } from '@/presentation/test';
 import { faker } from '@faker-js/faker';
 import { AuthenticationSpy } from '@/presentation/test/mock-authentication-spy';
 import { InvalidCredencialsError } from '@/Domain/error';
+import 'jest-localstorage-mock';
 
 type SutTypes = {
 	sut: RenderResult;
@@ -68,6 +69,9 @@ const simulateStatusForFiel = ({ sut, fielName, errorMessage }: SimulateStatusFo
 
 describe('<Login />', () => {
 	afterEach(cleanup);
+	beforeEach(() => {
+		localStorage.clear();
+	});
 	it('Should start with initial state', () => {
 		const { sut } = makeSut();
 		const { getByTestId } = sut;
@@ -213,5 +217,13 @@ describe('<Login />', () => {
 		expect(mainError.textContent).toBe(invalidCredencialsError.message);
 
 		expect(errorWrap.childElementCount).toBe(1);
+	});
+	it(' shold add acessToken to localstorage  on sucess', async () => {
+		const { sut, authenticationSpy } = makeSut();
+
+		simulateValidSubmit({ sut });
+		await waitFor(() => sut.getAllByTestId('form'));
+
+		expect(localStorage.setItem).toHaveBeenCalledWith('acessToken', authenticationSpy.account.accessToken);
 	});
 });
