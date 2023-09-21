@@ -26,10 +26,11 @@ export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
 				...prev,
 				isLoading: true,
 			}));
-			await authenticationSpy.auth({
+			const account = await authenticationSpy.auth({
 				email: form.email,
 				password: form.password,
 			});
+			localStorage.setItem('acessToken', account.accessToken);
 		} catch (err: any) {
 			console.log(err);
 			if (err instanceof InvalidCredencialsError) {
