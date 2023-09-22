@@ -1,11 +1,5 @@
-import { Valitation } from '@/presentation/protocols/validation';
 import { Form } from '../../components/Form';
-import { AuthenticationSpy } from '@/presentation/test/mock-authentication-spy';
-
-export type LoginProps = {
-	validation: Valitation;
-	authenticationSpy: AuthenticationSpy;
-};
+import { LoginProps } from './interface';
 
 export const Login: React.FC<LoginProps> = ({ validation, authenticationSpy }) => {
 	return (

@@ -1,8 +1,8 @@
 import { Input } from '../Input/Input';
 import Spiner from '../Spiner/Spiner';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
-import { LoginProps } from '@/presentation/pages/Login';
 import { useForm } from './useForm';
+import { LoginProps } from '@/presentation/pages/Login/interface';
 
 export const Form: React.FC<LoginProps> = ({ validation, authenticationSpy }) => {
 	const { changeInput, form, onSubmit } = useForm({ validation, authenticationSpy });

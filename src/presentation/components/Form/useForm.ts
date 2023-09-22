@@ -32,7 +32,6 @@ export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
 			});
 			localStorage.setItem('acessToken', account.accessToken);
 		} catch (err: any) {
-			console.log(err);
 			if (err instanceof InvalidCredencialsError) {
 				setForm(prev => ({
 					...prev,
