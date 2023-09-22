@@ -40,6 +40,6 @@ export type TestElementTextProps = TestElementExistsProps & {
 	text: string;
 };
 
-export type TestElementTextProps = TestElementExistsProps & {
+export type TestButtonIsDisabledProps = TestElementExistsProps & {
 	isDisabled: boolean;
 };
