@@ -1,0 +1,14 @@
+import { ValidationComposite } from './validation-composite';
+import { FieldValidationSpy } from '../test/mock-field-validation';
+
+describe('ValidationComposite', () => {
+	test('should return error if any validation failsc', () => {
+		const fielValidationSpy = new FieldValidationSpy('any_field');
+		const fielValidationSpy2 = new FieldValidationSpy('any_field');
+		fielValidationSpy2.error = new Error('any_message');
+
+		const sut = new ValidationComposite([fielValidationSpy, fielValidationSpy2]);
+		const error = sut.validate('any_field', 'any_value');
+		expect(error).toBe('any_message');
+	});
+});
