@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Login } from '@/presentation/pages/Login';
 import { ROUTES } from '../routes';
+import { MakeLogin } from '@/main/factories/pages/login/login-factory';
 
 export const router = createBrowserRouter([
 	{
 		path: ROUTES.Login,
-		element: <Login />, 
+		element: <MakeLogin />,
 	},
 ]);

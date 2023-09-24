@@ -31,7 +31,7 @@ export const Form: React.FC<LoginProps> = ({ validation, authenticationSpy }) =>
 				testid="password-status"
 				data-testid="password"
 				title={form.passwordError}
-				value={form.email}
+				value={form.password}
 				onChange={e => changeInput(e)}
 			/>
 			<button

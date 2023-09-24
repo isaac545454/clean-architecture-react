@@ -1,10 +1,11 @@
+import { Authentication } from '@/Domain/usecases';
 import { Valitation } from '@/presentation/protocols/validation';
 import { AuthenticationSpy, ValidationSpy } from '@/presentation/test';
 import { RenderResult } from '@testing-library/react';
 
 export type LoginProps = {
 	validation: Valitation;
-	authenticationSpy: AuthenticationSpy;
+	authenticationSpy: Authentication;
 };
 
 export type simulateValidSubmitProps = {

@@ -1,7 +1,7 @@
-import { LoginProps } from '@/presentation/pages/Login';
 import { useState } from 'react';
 import { StateFormValue } from './state';
 import { InvalidCredencialsError } from '@/Domain/error';
+import { LoginProps } from '@/presentation/pages/Login/interface';
 
 export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
 	const [form, setForm] = useState(StateFormValue);
@@ -39,6 +39,11 @@ export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
 					main: err.message,
 				}));
 			}
+			setForm(prev => ({
+				...prev,
+				isLoading: false,
+				main: 'erro',
+			}));
 		}
 	};
 
