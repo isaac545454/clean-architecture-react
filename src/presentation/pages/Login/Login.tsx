@@ -1,4 +1,4 @@
-import { Form } from '../../components/Form';
+import { Form } from './componentes/Form';
 import { LoginProps } from './interface';
 
 export const Login: React.FC<LoginProps> = ({ validation, authenticationSpy }) => {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { StateFormValue } from './state';
+import { StateFormValue } from './componentes/Form/state';
 import { InvalidCredencialsError } from '@/Domain/error';
 import { LoginProps } from '@/presentation/pages/Login/interface';
 
-export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
+export const useLogin = ({ validation, authenticationSpy }: LoginProps) => {
 	const [form, setForm] = useState(StateFormValue);
 
 	const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,17 +32,10 @@ export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
 			});
 			localStorage.setItem('acessToken', account.accessToken);
 		} catch (err: any) {
-			if (err instanceof InvalidCredencialsError) {
-				setForm(prev => ({
-					...prev,
-					isLoading: false,
-					main: err.message,
-				}));
-			}
 			setForm(prev => ({
 				...prev,
 				isLoading: false,
-				main: 'Credenciais invalidas',
+				main: err.message,
 			}));
 		}
 	};
