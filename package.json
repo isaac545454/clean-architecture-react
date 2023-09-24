@@ -60,8 +60,15 @@
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "./src/endipoints",
-      "./src/service"
+      "<rootDir>/src/endipoints",
+      "<rootDir>/src/main/",
+      "<rootDir>/src/presentation/AppRouter",
+      "<rootDir>/src/Domain/index.ts",
+      "<rootDir>/src/Domain/error/index.ts",
+      "<rootDir>/src/Domain/test/index.ts",
+      "<rootDir>/srx/infra/http/test/index.ts",
+      "<rootDir>/src/presentation/test/index.ts",
+      "<rootDir>/src/validation/errors/index.ts"
     ],
     "moduleNameMapper": {
       "@/tests/(.*)": "<rootDir>/tests/$1",
