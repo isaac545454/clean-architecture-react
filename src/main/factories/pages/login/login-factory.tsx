@@ -3,5 +3,5 @@ import { makeRemoteAuthentication } from '../../useCases/remote/remote-authentic
 import { makeValidationLogin } from './login-validation-factory';
 
 export const MakeLogin = () => {
-	return <Login authenticationSpy={makeRemoteAuthentication()} validation={makeValidationLogin()} />;
+	return <Login authenticationSpy={makeRemoteAuthentication('/login')} validation={makeValidationLogin()} />;
 };
