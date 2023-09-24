@@ -42,7 +42,7 @@ export const useForm = ({ validation, authenticationSpy }: LoginProps) => {
 			setForm(prev => ({
 				...prev,
 				isLoading: false,
-				main: 'erro',
+				main: 'Credenciais invalidas',
 			}));
 		}
 	};
