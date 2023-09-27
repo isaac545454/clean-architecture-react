@@ -1,11 +1,13 @@
 import { Authentication } from '@/Domain/usecases';
+import { SaveAcessToken } from '@/Domain/usecases/save-acess-token';
 import { Valitation } from '@/presentation/protocols/validation';
-import { AuthenticationSpy, ValidationSpy } from '@/presentation/test';
+import { AuthenticationSpy, SaveAcessTokenMock, ValidationSpy } from '@/presentation/test';
 import { RenderResult } from '@testing-library/react';
 
 export type LoginProps = {
 	validation: Valitation;
-	authenticationSpy: Authentication;
+	authentication: Authentication;
+	saveAccessToken: SaveAcessToken;
 };
 
 export type simulateValidSubmitProps = {
@@ -30,6 +32,7 @@ export type SutTypes = {
 	sut: RenderResult;
 	validationSpy: ValidationSpy;
 	authenticationSpy: AuthenticationSpy;
+	saveAcessTokenMock: SaveAcessTokenMock;
 };
 
 export type TestElementExistsProps = {

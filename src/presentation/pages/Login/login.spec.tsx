@@ -1,6 +1,6 @@
 import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { Login } from './Login';
-import { ValidationSpy } from '@/presentation/test';
+import { SaveAcessTokenMock, ValidationSpy } from '@/presentation/test';
 import { faker } from '@faker-js/faker';
 import { AuthenticationSpy } from '@/presentation/test/mock-authentication-spy';
 import { InvalidCredencialsError } from '@/Domain/error';
@@ -18,11 +18,16 @@ import {
 const makeSut = (): SutTypes => {
 	const validationSpy = new ValidationSpy();
 	const authenticationSpy = new AuthenticationSpy();
-	const sut = render(<Login validation={validationSpy} authenticationSpy={authenticationSpy} />);
+	const saveAcessTokenMock = new SaveAcessTokenMock();
+
+	const sut = render(
+		<Login validation={validationSpy} authentication={authenticationSpy} saveAccessToken={saveAcessTokenMock} />,
+	);
 	return {
 		sut,
 		validationSpy,
 		authenticationSpy,
+		saveAcessTokenMock,
 	};
 };
 
@@ -83,9 +88,6 @@ const testButtonIsDisabled = ({ sut, fieldName, isDisabled }: TestButtonIsDisabl
 
 describe('<Login />', () => {
 	afterEach(cleanup);
-	beforeEach(() => {
-		localStorage.clear();
-	});
 	it('Should start with initial state', () => {
 		const { sut } = makeSut();
 		const errorMessage = 'campo obrigatorio';
@@ -193,35 +195,25 @@ describe('<Login />', () => {
 	});
 	it(' shold not call Authentication if form is invalid ', () => {
 		const { sut, authenticationSpy, validationSpy } = makeSut();
-
 		const errorMessage = faker.animal.cat();
 		validationSpy.errorMessage = errorMessage;
-
 		populateEmailField({ sut });
-
 		const FormElement = sut.getByTestId('form');
-
 		fireEvent.submit(FormElement);
-
 		expect(authenticationSpy.callsCount).toBe(0);
 	});
 	it(' shold present error if Authentication fails ', async () => {
 		const { sut, authenticationSpy } = makeSut();
-
 		const invalidCredencialsError = new InvalidCredencialsError();
 		jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(invalidCredencialsError));
-
 		await simulateValidSubmit({ sut });
-
 		testElementText({ fieldName: 'main-error', sut, text: invalidCredencialsError.message });
-
 		testErrorWrapChildCount({ count: 1, sut });
 	});
-	it(' shold add acessToken to localstorage  on sucess', async () => {
-		const { sut, authenticationSpy } = makeSut();
 
+	it(' shold call SaveAcessToken on sucess', async () => {
+		const { sut, authenticationSpy, saveAcessTokenMock } = makeSut();
 		await simulateValidSubmit({ sut });
-
-		expect(localStorage.setItem).toHaveBeenCalledWith('acessToken', authenticationSpy.account.accessToken);
+		expect(saveAcessTokenMock.acessToken).toBe(authenticationSpy.account.accessToken);
 	});
 });
