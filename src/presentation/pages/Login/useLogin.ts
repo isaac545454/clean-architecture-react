@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { StateFormValue } from './componentes/Form/state';
-import { InvalidCredencialsError } from '@/Domain/error';
 import { LoginProps } from '@/presentation/pages/Login/interface';
 
-export const useLogin = ({ validation, authenticationSpy }: LoginProps) => {
+export const useLogin = ({ validation, authentication, saveAccessToken }: LoginProps) => {
 	const [form, setForm] = useState(StateFormValue);
 
 	const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +17,6 @@ export const useLogin = ({ validation, authenticationSpy }: LoginProps) => {
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
-
 		if (form.isLoading || form.emailError || form.passwordError) return;
 
 		try {
@@ -26,11 +24,12 @@ export const useLogin = ({ validation, authenticationSpy }: LoginProps) => {
 				...prev,
 				isLoading: true,
 			}));
-			const account = await authenticationSpy.auth({
+			const account = await authentication.auth({
 				email: form.email,
 				password: form.password,
 			});
-			localStorage.setItem('acessToken', account.accessToken);
+			await saveAccessToken.save(account.accessToken);
+			// localStorage.setItem('acessToken', account.accessToken);
 		} catch (err: any) {
 			setForm(prev => ({
 				...prev,
