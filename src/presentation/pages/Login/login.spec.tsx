@@ -195,16 +195,11 @@ describe('<Login />', () => {
 	});
 	it(' shold not call Authentication if form is invalid ', () => {
 		const { sut, authenticationSpy, validationSpy } = makeSut();
-
 		const errorMessage = faker.animal.cat();
 		validationSpy.errorMessage = errorMessage;
-
 		populateEmailField({ sut });
-
 		const FormElement = sut.getByTestId('form');
-
 		fireEvent.submit(FormElement);
-
 		expect(authenticationSpy.callsCount).toBe(0);
 	});
 	it(' shold present error if Authentication fails ', async () => {
@@ -215,6 +210,7 @@ describe('<Login />', () => {
 		testElementText({ fieldName: 'main-error', sut, text: invalidCredencialsError.message });
 		testErrorWrapChildCount({ count: 1, sut });
 	});
+
 	it(' shold call SaveAcessToken on sucess', async () => {
 		const { sut, authenticationSpy, saveAcessTokenMock } = makeSut();
 		await simulateValidSubmit({ sut });
