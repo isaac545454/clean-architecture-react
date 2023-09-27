@@ -29,7 +29,6 @@ export const useLogin = ({ validation, authentication, saveAccessToken }: LoginP
 				password: form.password,
 			});
 			await saveAccessToken.save(account.accessToken);
-			// localStorage.setItem('acessToken', account.accessToken);
 		} catch (err: any) {
 			setForm(prev => ({
 				...prev,
