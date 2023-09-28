@@ -10,9 +10,10 @@ describe('CompareFieldsValidation', () => {
 		const error = sut.validate(faker.database.mongodbObjectId());
 		expect(error).toEqual(new InvalidFielError());
 	});
-	// test('should return false if field is not empty', () => {
-	// 	const { sut } = makeSut();
-	// 	const error = sut.validate(faker.animal.cat());
-	// 	expect(error).toBeFalsy();
-	// });
+	test('should return falsy if compare is valid', () => {
+		const valueToCompare = faker.database.mongodbObjectId();
+		const { sut } = makeSut(valueToCompare);
+		const error = sut.validate(valueToCompare);
+		expect(error).toBeFalsy();
+	});
 });

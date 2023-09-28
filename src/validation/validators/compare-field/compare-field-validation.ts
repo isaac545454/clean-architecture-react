@@ -4,6 +4,7 @@ export class CompareFieldsValidation {
 	constructor(readonly field: string, private readonly valueToCompare: string) {}
 
 	validate(value: string): Error | null {
-		return new InvalidFielError();
+		if (value !== this.valueToCompare) return new InvalidFielError();
+		return null;
 	}
 }
