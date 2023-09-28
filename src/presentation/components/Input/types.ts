@@ -1,6 +1,6 @@
 import { InputHTMLAttributes } from 'react';
 
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
-	title: string;
+	title?: string;
 	testid?: string;
 };
