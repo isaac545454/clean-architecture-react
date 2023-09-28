@@ -15,7 +15,6 @@ type SutTypes = {
 const makeSut = (url: string = faker.internet.url()): SutTypes => {
 	const httpPostClientSpy = new HttpPostClientSpy<AddAccountParams, AccountModel>();
 	const sut = new RemoteAddAccount(url, httpPostClientSpy);
-
 	return {
 		sut,
 		httpPostClientSpy,
