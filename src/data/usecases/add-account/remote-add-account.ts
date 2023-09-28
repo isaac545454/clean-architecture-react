@@ -1,6 +1,7 @@
+import { EmailInUserError } from '@/Domain/error';
 import { AccountModel } from '@/Domain/models';
 import { AddAccount, AddAccountParams } from '@/Domain/usecases';
-import { HttpPostClient } from '@/data/protocols/http';
+import { HttpPostClient, HttpStatusCode } from '@/data/protocols/http';
 
 export class RemoteAddAccount implements AddAccount {
 	constructor(
@@ -9,7 +10,13 @@ export class RemoteAddAccount implements AddAccount {
 	) {}
 
 	async add(params: AddAccountParams): Promise<AccountModel> {
-		await this.httpPostClient.post({ url: this.url, body: params });
-		return { accessToken: '' };
+		const response = await this.httpPostClient.post({ url: this.url, body: params });
+
+		switch (response.statusCode) {
+			case HttpStatusCode.forbidden:
+				throw new EmailInUserError();
+			default:
+				return { accessToken: '' };
+		}
 	}
 }
