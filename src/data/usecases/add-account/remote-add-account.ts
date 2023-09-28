@@ -1,4 +1,4 @@
-import { EmailInUserError } from '@/Domain/error';
+import { EmailInUserError, UnexpectedError } from '@/Domain/error';
 import { AccountModel } from '@/Domain/models';
 import { AddAccount, AddAccountParams } from '@/Domain/usecases';
 import { HttpPostClient, HttpStatusCode } from '@/data/protocols/http';
@@ -13,10 +13,12 @@ export class RemoteAddAccount implements AddAccount {
 		const response = await this.httpPostClient.post({ url: this.url, body: params });
 
 		switch (response.statusCode) {
+			case HttpStatusCode.ok:
+				return { accessToken: '' };
 			case HttpStatusCode.forbidden:
 				throw new EmailInUserError();
 			default:
-				return { accessToken: '' };
+				throw new UnexpectedError();
 		}
 	}
 }
