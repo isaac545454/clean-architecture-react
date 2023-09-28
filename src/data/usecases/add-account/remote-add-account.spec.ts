@@ -1,4 +1,4 @@
-import { mockAddAccountParams } from '@/Domain/test';
+import { mockAccountModel, mockAddAccountParams } from '@/Domain/test';
 import { faker } from '@faker-js/faker';
 import { RemoteAddAccount } from './remote-add-account';
 import { AddAccountParams } from '@/Domain/usecases';
@@ -68,5 +68,16 @@ describe('RemoteAddAccount', () => {
 		};
 		const promise = sut.add(mockAddAccountParams());
 		await expect(promise).rejects.toThrow(new UnexpectedError());
+	});
+
+	test('Should Return an AccountModel if httpPostClient return 200', async () => {
+		const { sut, httpPostClientSpy } = makeSut();
+		const httpResult = mockAccountModel();
+		httpPostClientSpy.response = {
+			statusCode: HttpStatusCode.ok,
+			body: httpResult,
+		};
+		const account = await sut.add(mockAddAccountParams());
+		expect(account).toEqual(httpResult);
 	});
 });
