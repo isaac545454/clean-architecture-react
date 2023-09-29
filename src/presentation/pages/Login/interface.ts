@@ -16,13 +16,6 @@ export type simulateValidSubmitProps = {
 	password?: string;
 };
 
-export type SimulateStatusForFielProps = {
-	sut: RenderResult;
-	fielName: string;
-	errorMessage?: string;
-	count?: number;
-};
-
 export type testErrorWrapChildCountProps = {
 	sut: RenderResult;
 	count: number;
@@ -42,8 +35,4 @@ export type TestElementExistsProps = {
 
 export type TestElementTextProps = TestElementExistsProps & {
 	text: string;
-};
-
-export type TestButtonIsDisabledProps = TestElementExistsProps & {
-	isDisabled: boolean;
 };
