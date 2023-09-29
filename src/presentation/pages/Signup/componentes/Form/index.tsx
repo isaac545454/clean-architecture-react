@@ -1,9 +1,9 @@
-import { Input } from '../../../../components/Input/Input';
-import { SignUpProps } from '../../interface';
-import { useSignUp } from '../../useSignUp';
+import { Input } from '../../../../components/Input/Input'
+import { SignUpProps } from '../../interface'
+import { useSignUp } from '../../useSignUp'
 
 export const Form: React.FC<SignUpProps> = ({ validation }) => {
-	const { form, changeInput } = useSignUp({ validation });
+	const { form, changeInput } = useSignUp({ validation })
 	return (
 		<form
 			className="flex flex-col w-[500px] mx-auto bg-white p-8 rounded-xl self-center shadow-md"
@@ -66,5 +66,5 @@ export const Form: React.FC<SignUpProps> = ({ validation }) => {
 				<span>Criar Conta</span>
 			</div>
 		</form>
-	);
-};
+	)
+}
