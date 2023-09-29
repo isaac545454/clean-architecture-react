@@ -1,8 +1,9 @@
 import { Input } from '../../../../components/Input/Input';
+import { SignUpProps } from '../../interface';
 import { useSignUp } from '../../useSignUp';
 
-export const Form = () => {
-	const { form } = useSignUp();
+export const Form: React.FC<SignUpProps> = ({ validation }) => {
+	const { form, changeInput } = useSignUp({ validation });
 	return (
 		<form
 			className="flex flex-col w-[500px] mx-auto bg-white p-8 rounded-xl self-center shadow-md"
@@ -15,9 +16,9 @@ export const Form = () => {
 				placeholder="digite seu Nome"
 				testid="name-status"
 				data-testid="name"
-				title={form.emailError}
-				// value={form.email}
-				// onChange={e => changeInput(e)}
+				title={form.nameError}
+				value={form.name}
+				onChange={e => changeInput(e)}
 			/>
 			<Input
 				type="email"
@@ -52,7 +53,7 @@ export const Form = () => {
 			<button
 				type="submit"
 				data-testid="submit"
-				disabled={!!form.emailError || !!form.passwordError || !!form.namedError || !!form.confirmPasswordError}
+				disabled={!!form.emailError || !!form.passwordError || !!form.nameError || !!form.confirmPasswordError}
 				className="bg-primary text-white rounded-xl text-lg border-none leading-[60px] hover:opacity-90 mb-6 disabled:opacity-80"
 			>
 				ENTRAR

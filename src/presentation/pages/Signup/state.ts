@@ -6,7 +6,7 @@ export const StateFormValue = {
 	confirmPassword: '',
 	emailError: 'campo obrigatorio',
 	passwordError: 'campo obrigatorio',
-	namedError: 'campo obrigatorio',
+	nameError: 'campo obrigatorio',
 	confirmPasswordError: 'campo obrigatorio',
 	main: '',
 };

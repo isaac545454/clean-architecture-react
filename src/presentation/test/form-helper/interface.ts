@@ -17,3 +17,9 @@ export type SimulateStatusForFielProps = {
 	errorMessage?: string;
 	count?: number;
 };
+
+export type simulateValidSubmitProps = {
+	sut: RenderResult;
+	value?: string;
+	fielName: string;
+};

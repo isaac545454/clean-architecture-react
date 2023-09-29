@@ -1,4 +1,11 @@
-import { SimulateStatusForFielProps, TestButtonIsDisabledProps, TestChildCountProps } from './interface';
+import { fireEvent } from '@testing-library/react';
+import {
+	SimulateStatusForFielProps,
+	TestButtonIsDisabledProps,
+	TestChildCountProps,
+	simulateValidSubmitProps,
+} from './interface';
+import { faker } from '@faker-js/faker';
 
 export const testChildCount = ({ sut, count, fieldName }: TestChildCountProps) => {
 	const el = sut.getByTestId(fieldName);
@@ -14,4 +21,9 @@ export const testStatusForFiel = ({ sut, fielName, errorMessage }: SimulateStatu
 	const fieldStatus = sut.getByTestId(`${fielName}-status`);
 	expect(fieldStatus.title).toBe(errorMessage || 'tudo certo');
 	expect(fieldStatus.textContent).toBe(errorMessage ? '🔴' : '🟢');
+};
+
+export const populateField = ({ sut, fielName, value = faker.internet.email() }: simulateValidSubmitProps) => {
+	const emailInput = sut.getByTestId(fielName);
+	fireEvent.input(emailInput, { target: { value } });
 };

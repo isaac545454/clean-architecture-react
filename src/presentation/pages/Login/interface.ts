@@ -10,12 +10,6 @@ export type LoginProps = {
 	saveAccessToken: SaveAcessToken;
 };
 
-export type simulateValidSubmitProps = {
-	sut: RenderResult;
-	email?: string;
-	password?: string;
-};
-
 export type testErrorWrapChildCountProps = {
 	sut: RenderResult;
 	count: number;
