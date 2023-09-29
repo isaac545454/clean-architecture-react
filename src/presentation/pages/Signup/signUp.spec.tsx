@@ -1,40 +1,53 @@
-import { render } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { SignUp } from '.';
 import { SutTypes } from './interface';
 import * as Helper from '@/presentation/test/form-helper';
+import { ValidationSpy } from '@/presentation/test';
 
 const makeSut = (): SutTypes => {
-	const sut = render(<SignUp />);
+	const validationSpy = new ValidationSpy();
+	validationSpy.errorMessage = 'campo obrigatorio';
+	const sut = render(<SignUp validation={validationSpy} />);
 	return {
 		sut,
+		validationSpy,
 	};
 };
 
 describe('<SignUp />', () => {
-	test('', () => {
+	afterEach(cleanup);
+	test('Should start with initial state', () => {
 		const { sut } = makeSut();
-		const validateError = 'campo obrigatorio';
+
+		const required = 'campo obrigatorio';
 		Helper.testChildCount({ count: 0, sut, fieldName: 'error-wrap' });
 		Helper.testButtonIsDisabled({ sut, fieldName: 'submit', isDisabled: true });
 		Helper.testStatusForFiel({
 			sut,
 			fielName: 'name',
-			errorMessage: validateError,
+			errorMessage: required,
 		});
 		Helper.testStatusForFiel({
 			sut,
 			fielName: 'email',
-			errorMessage: validateError,
+			errorMessage: required,
 		});
 		Helper.testStatusForFiel({
 			sut,
 			fielName: 'password',
-			errorMessage: validateError,
+			errorMessage: required,
 		});
 		Helper.testStatusForFiel({
 			sut,
 			fielName: 'passwordConfirmation',
-			errorMessage: validateError,
+			errorMessage: required,
 		});
+	});
+	it('Should call name validation with correct fails', () => {
+		const validateError = 'campo obrigatorio';
+		const { sut, validationSpy } = makeSut();
+		validationSpy.errorMessage = validateError;
+		Helper.populateField({ sut, fielName: 'name' });
+		Helper.testStatusForFiel({ sut, fielName: 'name', errorMessage: validateError });
 	});
 });
