@@ -49,4 +49,22 @@ describe('<SignUp />', () => {
 		Helper.populateField({ sut, fielName: 'name' })
 		Helper.testStatusForFiel({ sut, fielName: 'name', errorMessage: validateError })
 	})
+	it('Should call email validation with correct fails', () => {
+		const validateError = 'campo obrigatorio'
+		const { sut } = makeSut()
+		Helper.populateField({ sut, fielName: 'email' })
+		Helper.testStatusForFiel({ sut, fielName: 'email', errorMessage: validateError })
+	})
+	it('Should call password validation with correct fails', () => {
+		const validateError = 'campo obrigatorio'
+		const { sut } = makeSut()
+		Helper.populateField({ sut, fielName: 'password' })
+		Helper.testStatusForFiel({ sut, fielName: 'password', errorMessage: validateError })
+	})
+	it('Should call passwordConfirmation validation with correct fails', () => {
+		const validateError = 'campo obrigatorio'
+		const { sut } = makeSut()
+		Helper.populateField({ sut, fielName: 'passwordConfirmation' })
+		Helper.testStatusForFiel({ sut, fielName: 'passwordConfirmation', errorMessage: validateError })
+	})
 })
