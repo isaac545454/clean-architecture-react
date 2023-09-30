@@ -163,4 +163,13 @@ describe('<SignUp />', () => {
 
 		expect(addAccountSpy.callsCount).toBe(1)
 	})
+	it(' shold not call Authentication if form is invalid ', () => {
+		const { sut, addAccountSpy, validationSpy } = makeSut()
+		const errorMessage = faker.animal.cat()
+		validationSpy.errorMessage = errorMessage
+		Helper.populateField({ sut, fielName: 'email' })
+		const FormElement = sut.getByTestId('form')
+		fireEvent.submit(FormElement)
+		expect(addAccountSpy.callsCount).toBe(0)
+	})
 })
