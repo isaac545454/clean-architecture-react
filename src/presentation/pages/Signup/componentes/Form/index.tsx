@@ -27,8 +27,8 @@ export const Form: React.FC<SignUpProps> = ({ validation }) => {
 				testid="email-status"
 				data-testid="email"
 				title={form.emailError}
-				// value={form.email}
-				// onChange={e => changeInput(e)}
+				value={form.email}
+				onChange={e => changeInput(e)}
 			/>
 			<Input
 				type="password"
@@ -37,23 +37,23 @@ export const Form: React.FC<SignUpProps> = ({ validation }) => {
 				testid="password-status"
 				data-testid="password"
 				title={form.passwordError}
-				// value={form.password}
-				// onChange={e => changeInput(e)}
+				value={form.password}
+				onChange={e => changeInput(e)}
 			/>
 			<Input
 				type="password"
-				name="password"
+				name="confirmation"
 				placeholder="repita sua senha"
-				testid="passwordConfirmation-status"
-				data-testid="passwordConfirmation"
-				title={form.confirmPasswordError}
-				// value={form.password}
-				// onChange={e => changeInput(e)}
+				testid="confirmation-status"
+				data-testid="confirmation"
+				title={form.confirmationError}
+				value={form.confirmation}
+				onChange={e => changeInput(e)}
 			/>
 			<button
 				type="submit"
 				data-testid="submit"
-				disabled={!!form.emailError || !!form.passwordError || !!form.nameError || !!form.confirmPasswordError}
+				disabled={!!form.emailError || !!form.passwordError || !!form.nameError || !!form.passwordError}
 				className="bg-primary text-white rounded-xl text-lg border-none leading-[60px] hover:opacity-90 mb-6 disabled:opacity-80"
 			>
 				ENTRAR
