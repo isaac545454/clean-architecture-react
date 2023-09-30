@@ -1,14 +1,16 @@
+import { ErrorMessage } from '@/presentation/components/ErrorMessage'
 import { Input } from '../../../../components/Input/Input'
 import { SignUpProps } from '../../interface'
 import { useSignUp } from '../../useSignUp'
+import Spiner from '@/presentation/components/Spiner/Spiner'
 
 export const Form: React.FC<SignUpProps> = ({ validation }) => {
-	const { form, changeInput } = useSignUp({ validation })
+	const { form, changeInput, isDisabledButton, onSubmit } = useSignUp({ validation })
 	return (
 		<form
-			className="flex flex-col w-[500px] mx-auto bg-white p-8 rounded-xl self-center shadow-md"
 			data-testid="form"
-			// onSubmit={onSubmit}
+			className="flex flex-col w-[500px] mx-auto bg-white p-8 rounded-xl self-center shadow-md"
+			onSubmit={onSubmit}
 		>
 			<h2 className="text-primaryDark text-center text-2xl uppercase font-bold">Criar Conta</h2>
 			<Input
@@ -53,14 +55,14 @@ export const Form: React.FC<SignUpProps> = ({ validation }) => {
 			<button
 				type="submit"
 				data-testid="submit"
-				disabled={!!form.emailError || !!form.passwordError || !!form.nameError || !!form.passwordError}
+				disabled={isDisabledButton}
 				className="bg-primary text-white rounded-xl text-lg border-none leading-[60px] hover:opacity-90 mb-6 disabled:opacity-80"
 			>
 				ENTRAR
 			</button>
 			<div data-testid="error-wrap">
-				{/* {form.main && <ErrorMessage isError={form.main} />}
-				{form.isLoading && <Spiner />} */}
+				{form.main && <ErrorMessage isError={form.main} />}
+				{form.isLoading && <Spiner />}
 			</div>
 			<div className="text-center  hover:text-primary font-bold transition-all">
 				<span>Criar Conta</span>

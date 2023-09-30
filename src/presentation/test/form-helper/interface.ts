@@ -1,25 +1,29 @@
-import { TestElementExistsProps } from '@/presentation/pages/Login/interface';
-import { RenderResult } from '@testing-library/react';
+import { RenderResult } from '@testing-library/react'
 
 export type TestChildCountProps = {
-	sut: RenderResult;
-	count: number;
-	fieldName: string;
-};
+	sut: RenderResult
+	count: number
+	fieldName: string
+}
 
 export type TestButtonIsDisabledProps = TestElementExistsProps & {
-	isDisabled: boolean;
-};
+	isDisabled: boolean
+}
 
 export type SimulateStatusForFielProps = {
-	sut: RenderResult;
-	fielName: string;
-	errorMessage?: string;
-	count?: number;
-};
+	sut: RenderResult
+	fielName: string
+	errorMessage?: string
+	count?: number
+}
 
 export type simulateValidSubmitProps = {
-	sut: RenderResult;
-	value?: string;
-	fielName: string;
-};
+	sut: RenderResult
+	value?: string
+	fielName: string
+}
+
+export type TestElementExistsProps = {
+	sut: RenderResult
+	fieldName: string
+}

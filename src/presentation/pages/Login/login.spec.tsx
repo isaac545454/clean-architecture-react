@@ -6,7 +6,7 @@ import { AuthenticationSpy } from '@/presentation/test/mock-authentication-spy'
 import { InvalidCredencialsError } from '@/Domain/error'
 import * as Helper from '@/presentation/test/form-helper'
 import 'jest-localstorage-mock'
-import { SutTypes, TestElementExistsProps, TestElementTextProps, simulateValidSubmitProps } from './interface'
+import { SutTypes, TestElementTextProps, simulateValidSubmitProps } from './interface'
 
 const makeSut = (): SutTypes => {
 	const validationSpy = new ValidationSpy()
@@ -38,11 +38,6 @@ const simulateValidSubmit = async ({
 	fireEvent.submit(Form)
 
 	await waitFor(() => Form)
-}
-
-const testElementExists = ({ sut, fieldName }: TestElementExistsProps) => {
-	const el = sut.getByTestId(fieldName)
-	expect(el).toBeTruthy()
 }
 
 const testElementText = ({ sut, fieldName, text }: TestElementTextProps) => {
@@ -135,7 +130,7 @@ describe('<Login />', () => {
 	it(' shold show spinner on submit', async () => {
 		const { sut } = makeSut()
 		await simulateValidSubmit({ sut })
-		testElementExists({ sut, fieldName: 'spinner' })
+		Helper.testElementExists({ sut, fieldName: 'spinner' })
 	})
 	it(' shold call Authentication with correct values ', async () => {
 		const loginData = {

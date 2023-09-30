@@ -1,8 +1,9 @@
-import { render, cleanup } from '@testing-library/react'
+import { render, cleanup, waitFor, fireEvent } from '@testing-library/react'
 import { SignUp } from '.'
-import { SutTypes } from './interface'
+import { SimulateValidSubmit, SutTypes } from './interface'
 import * as Helper from '@/presentation/test/form-helper'
 import { ValidationSpy } from '@/presentation/test'
+import { faker } from '@faker-js/faker'
 
 const makeSut = (errorMessage?: string): SutTypes => {
 	const validationSpy = new ValidationSpy()
@@ -14,6 +15,24 @@ const makeSut = (errorMessage?: string): SutTypes => {
 		sut,
 		validationSpy,
 	}
+}
+
+export const simulateValidSubmit = async ({
+	sut,
+	email = faker.internet.email(),
+	password,
+	name = faker.person.firstName(),
+	confirmation,
+}: SimulateValidSubmit): Promise<void> => {
+	const { getByTestId } = sut
+	const passwordGenerate = faker.internet.password()
+	Helper.populateField({ sut, fielName: 'name', value: name })
+	Helper.populateField({ sut, fielName: 'email', value: email })
+	Helper.populateField({ sut, fielName: 'password', value: password ?? passwordGenerate })
+	Helper.populateField({ sut, fielName: 'confirmation', value: confirmation ?? passwordGenerate })
+	const Form = getByTestId('form')
+	fireEvent.submit(Form)
+	await waitFor(() => Form)
 }
 
 describe('<SignUp />', () => {
@@ -107,5 +126,10 @@ describe('<SignUp />', () => {
 		Helper.populateField({ sut, fielName: 'password' })
 		Helper.populateField({ sut, fielName: 'confirmation' })
 		Helper.testButtonIsDisabled({ isDisabled: false, fieldName: 'submit', sut })
+	})
+	it(' shold show spinner on submit', async () => {
+		const { sut } = makeSut()
+		await simulateValidSubmit({ sut })
+		Helper.testElementExists({ sut, fieldName: 'spinner' })
 	})
 })
