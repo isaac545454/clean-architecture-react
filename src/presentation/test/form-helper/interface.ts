@@ -27,3 +27,7 @@ export type TestElementExistsProps = {
 	sut: RenderResult
 	fieldName: string
 }
+
+export type TestElementTextProps = TestElementExistsProps & {
+	text: string
+}

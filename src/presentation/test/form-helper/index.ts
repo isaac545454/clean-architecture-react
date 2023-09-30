@@ -4,6 +4,7 @@ import {
 	TestButtonIsDisabledProps,
 	TestChildCountProps,
 	TestElementExistsProps,
+	TestElementTextProps,
 	simulateValidSubmitProps,
 } from './interface'
 import { faker } from '@faker-js/faker'
@@ -32,4 +33,9 @@ export const populateField = ({ sut, fielName, value = faker.internet.email() }:
 export const testElementExists = ({ sut, fieldName }: TestElementExistsProps) => {
 	const el = sut.getByTestId(fieldName)
 	expect(el).toBeTruthy()
+}
+
+export const testElementText = ({ sut, fieldName, text }: TestElementTextProps) => {
+	const el = sut.getByTestId(fieldName)
+	expect(el.textContent).toBe(text)
 }

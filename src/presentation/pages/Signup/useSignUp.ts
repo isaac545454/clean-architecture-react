@@ -17,10 +17,9 @@ export const useSignUp = ({ validation, addAccount }: SignUpProps) => {
 		})
 	}
 
-	const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		if (!form.email || !form.confirmation || !form.password || !form.name || form.isLoading) return
-
 		try {
 			setForm(preview => {
 				return {
@@ -28,20 +27,18 @@ export const useSignUp = ({ validation, addAccount }: SignUpProps) => {
 					isLoading: true,
 				}
 			})
-			addAccount.add({
+			await addAccount.add({
 				email: form.email,
 				name: form.name,
 				password: form.password,
 				confirmation: form.confirmation,
 			})
-		} catch (error: any) {
-			setForm(preview => {
-				return {
-					...preview,
-					main: error?.message,
-					isLoading: false,
-				}
-			})
+		} catch (err: any) {
+			setForm(prev => ({
+				...prev,
+				isLoading: false,
+				main: err.message,
+			}))
 		}
 	}
 

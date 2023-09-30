@@ -16,23 +16,9 @@ export type simulateValidSubmitProps = {
 	password?: string
 }
 
-export type testErrorWrapChildCountProps = {
-	sut: RenderResult
-	count: number
-}
-
 export type SutTypes = {
 	sut: RenderResult
 	validationSpy: ValidationSpy
 	authenticationSpy: AuthenticationSpy
 	saveAcessTokenMock: SaveAcessTokenMock
-}
-
-export type TestElementExistsProps = {
-	sut: RenderResult
-	fieldName: string
-}
-
-export type TestElementTextProps = TestElementExistsProps & {
-	text: string
 }
