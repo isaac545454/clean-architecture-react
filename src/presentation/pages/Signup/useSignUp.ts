@@ -19,7 +19,7 @@ export const useSignUp = ({ validation, addAccount }: SignUpProps) => {
 
 	const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
-		if (!form.email || !form.confirmation || !form.password || !form.name) return
+		if (!form.email || !form.confirmation || !form.password || !form.name || form.isLoading) return
 
 		try {
 			setForm(preview => {
