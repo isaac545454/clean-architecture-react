@@ -100,4 +100,12 @@ describe('<SignUp />', () => {
 			fielName: 'confirmation',
 		})
 	})
+	it('shold enabled submit button if form is valid', () => {
+		const { sut } = makeSut()
+		Helper.populateField({ sut, fielName: 'name' })
+		Helper.populateField({ sut, fielName: 'email' })
+		Helper.populateField({ sut, fielName: 'password' })
+		Helper.populateField({ sut, fielName: 'confirmation' })
+		Helper.testButtonIsDisabled({ isDisabled: false, fieldName: 'submit', sut })
+	})
 })
