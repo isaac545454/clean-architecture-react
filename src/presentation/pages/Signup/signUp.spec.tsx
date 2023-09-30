@@ -5,6 +5,7 @@ import * as Helper from '@/presentation/test/form-helper'
 import { ValidationSpy } from '@/presentation/test'
 import { faker } from '@faker-js/faker'
 import { AddAccountSpy } from '@/presentation/test/mock-add-account'
+import { EmailInUserError } from '@/Domain/error'
 
 const makeSut = (errorMessage?: string): SutTypes => {
 	const validationSpy = new ValidationSpy()
@@ -163,7 +164,7 @@ describe('<SignUp />', () => {
 
 		expect(addAccountSpy.callsCount).toBe(1)
 	})
-	it(' shold not call Authentication if form is invalid ', () => {
+	it(' shold not call addAccount if form is invalid ', () => {
 		const { sut, addAccountSpy, validationSpy } = makeSut()
 		const errorMessage = faker.animal.cat()
 		validationSpy.errorMessage = errorMessage
@@ -171,5 +172,13 @@ describe('<SignUp />', () => {
 		const FormElement = sut.getByTestId('form')
 		fireEvent.submit(FormElement)
 		expect(addAccountSpy.callsCount).toBe(0)
+	})
+	it(' shold present error if addAccount fails ', async () => {
+		const { sut, addAccountSpy } = makeSut()
+		const invalidCredencialsError = new EmailInUserError()
+		jest.spyOn(addAccountSpy, 'add').mockReturnValueOnce(Promise.reject(invalidCredencialsError))
+		await simulateValidSubmit({ sut })
+		Helper.testElementText({ fieldName: 'main-error', sut, text: invalidCredencialsError.message })
+		Helper.testChildCount({ count: 1, sut, fieldName: 'error-wrap' })
 	})
 })

@@ -6,7 +6,7 @@ import { AuthenticationSpy } from '@/presentation/test/mock-authentication-spy'
 import { InvalidCredencialsError } from '@/Domain/error'
 import * as Helper from '@/presentation/test/form-helper'
 import 'jest-localstorage-mock'
-import { SutTypes, TestElementTextProps, simulateValidSubmitProps } from './interface'
+import { SutTypes, simulateValidSubmitProps } from './interface'
 
 const makeSut = (): SutTypes => {
 	const validationSpy = new ValidationSpy()
@@ -38,11 +38,6 @@ const simulateValidSubmit = async ({
 	fireEvent.submit(Form)
 
 	await waitFor(() => Form)
-}
-
-const testElementText = ({ sut, fieldName, text }: TestElementTextProps) => {
-	const el = sut.getByTestId(fieldName)
-	expect(el.textContent).toBe(text)
 }
 
 describe('<Login />', () => {
@@ -163,9 +158,9 @@ describe('<Login />', () => {
 	it(' shold present error if Authentication fails ', async () => {
 		const { sut, authenticationSpy } = makeSut()
 		const invalidCredencialsError = new InvalidCredencialsError()
-		jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(invalidCredencialsError))
+		jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(invalidCredencialsError)
 		await simulateValidSubmit({ sut })
-		testElementText({ fieldName: 'main-error', sut, text: invalidCredencialsError.message })
+		Helper.testElementText({ fieldName: 'main-error', sut, text: invalidCredencialsError.message })
 		Helper.testChildCount({ count: 1, sut, fieldName: 'error-wrap' })
 	})
 
