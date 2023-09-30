@@ -4,8 +4,8 @@ import { SignUpProps } from '../../interface'
 import { useSignUp } from '../../useSignUp'
 import Spiner from '@/presentation/components/Spiner/Spiner'
 
-export const Form: React.FC<SignUpProps> = ({ validation }) => {
-	const { form, changeInput, isDisabledButton, onSubmit } = useSignUp({ validation })
+export const Form: React.FC<SignUpProps> = ({ validation, addAccount }) => {
+	const { form, changeInput, isDisabledButton, onSubmit } = useSignUp({ validation, addAccount })
 	return (
 		<form
 			data-testid="form"

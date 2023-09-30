@@ -4,16 +4,19 @@ import { SimulateValidSubmit, SutTypes } from './interface'
 import * as Helper from '@/presentation/test/form-helper'
 import { ValidationSpy } from '@/presentation/test'
 import { faker } from '@faker-js/faker'
+import { AddAccountSpy } from '@/presentation/test/mock-add-account'
 
 const makeSut = (errorMessage?: string): SutTypes => {
 	const validationSpy = new ValidationSpy()
+	const addAccountSpy = new AddAccountSpy()
 	if (errorMessage) {
 		validationSpy.errorMessage = errorMessage
 	}
-	const sut = render(<SignUp validation={validationSpy} />)
+	const sut = render(<SignUp validation={validationSpy} addAccount={addAccountSpy} />)
 	return {
 		sut,
 		validationSpy,
+		addAccountSpy,
 	}
 }
 
@@ -131,5 +134,25 @@ describe('<SignUp />', () => {
 		const { sut } = makeSut()
 		await simulateValidSubmit({ sut })
 		Helper.testElementExists({ sut, fieldName: 'spinner' })
+	})
+	it(' shold call AddAccount with correct values ', async () => {
+		const CreatedPassword = faker.internet.password()
+		const createUser = {
+			name: faker.person.firstName(),
+			email: faker.internet.email(),
+			password: CreatedPassword,
+			confirmation: CreatedPassword,
+		}
+		const { sut, addAccountSpy } = makeSut()
+
+		await simulateValidSubmit({
+			sut,
+			email: createUser.email,
+			password: createUser.password,
+			name: createUser.name,
+			confirmation: createUser.confirmation,
+		})
+
+		expect(addAccountSpy.params).toEqual(createUser)
 	})
 })
