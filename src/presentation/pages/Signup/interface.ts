@@ -1,18 +1,11 @@
 import { Valitation } from '@/presentation/protocols/validation'
-import { ValidationSpy } from '@/presentation/test'
 import { RenderResult } from '@testing-library/react'
-import { AddAccount } from '@/Domain/usecases'
-import { AddAccountSpy } from '@/presentation/test/mock-add-account'
+import { AddAccount, SaveAcessToken } from '@/Domain/usecases'
 
 export type SignUpProps = {
 	validation: Valitation
 	addAccount: AddAccount
-}
-
-export type SutTypes = {
-	sut: RenderResult
-	validationSpy: ValidationSpy
-	addAccountSpy: AddAccountSpy
+	saveAccessToken: SaveAcessToken
 }
 
 export type SimulateValidSubmit = {

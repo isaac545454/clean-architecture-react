@@ -3,9 +3,10 @@ import { Input } from '../../../../components/Input/Input'
 import { SignUpProps } from '../../interface'
 import { useSignUp } from '../../useSignUp'
 import Spiner from '@/presentation/components/Spiner/Spiner'
+import { ButtonSubmit } from '@/presentation/components/ButtonSubmit'
 
-export const Form: React.FC<SignUpProps> = ({ validation, addAccount }) => {
-	const { form, changeInput, isDisabledButton, onSubmit } = useSignUp({ validation, addAccount })
+export const Form: React.FC<SignUpProps> = ({ validation, addAccount, saveAccessToken }) => {
+	const { form, changeInput, isDisabledButton, onSubmit } = useSignUp({ validation, addAccount, saveAccessToken })
 	return (
 		<form
 			data-testid="form"
@@ -52,14 +53,7 @@ export const Form: React.FC<SignUpProps> = ({ validation, addAccount }) => {
 				value={form.confirmation}
 				onChange={e => changeInput(e)}
 			/>
-			<button
-				type="submit"
-				data-testid="submit"
-				disabled={isDisabledButton}
-				className="bg-primary text-white rounded-xl text-lg border-none leading-[60px] hover:opacity-90 mb-6 disabled:opacity-80"
-			>
-				ENTRAR
-			</button>
+			<ButtonSubmit disabled={isDisabledButton} />
 			<div data-testid="error-wrap">
 				{form.main && <ErrorMessage isError={form.main} />}
 				{form.isLoading && <Spiner />}

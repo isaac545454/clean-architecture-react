@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { StateFormValue } from './state'
 import { SignUpProps } from './interface'
 
-export const useSignUp = ({ validation, addAccount }: SignUpProps) => {
+export const useSignUp = ({ validation, addAccount, saveAccessToken }: SignUpProps) => {
 	const [form, setForm] = useState(StateFormValue)
 
 	const isDisabledButton = !!form.emailError || !!form.passwordError || !!form.nameError || !!form.confirmationError
@@ -19,7 +19,9 @@ export const useSignUp = ({ validation, addAccount }: SignUpProps) => {
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
+
 		if (!form.email || !form.confirmation || !form.password || !form.name || form.isLoading) return
+
 		try {
 			setForm(preview => {
 				return {
@@ -27,12 +29,13 @@ export const useSignUp = ({ validation, addAccount }: SignUpProps) => {
 					isLoading: true,
 				}
 			})
-			await addAccount.add({
+			const account = await addAccount.add({
 				email: form.email,
 				name: form.name,
 				password: form.password,
 				confirmation: form.confirmation,
 			})
+			await saveAccessToken.save(account.accessToken)
 		} catch (err: any) {
 			setForm(prev => ({
 				...prev,

@@ -1,11 +1,12 @@
-import { Input } from '../../../../components/Input/Input';
-import Spiner from '../../../../components/Spiner/Spiner';
-import { ErrorMessage } from '../../../../components/ErrorMessage/ErrorMessage';
-import { LoginProps } from '@/presentation/pages/Login/interface';
-import { useLogin } from '../../useLogin';
+import { Input } from '../../../../components/Input/Input'
+import Spiner from '../../../../components/Spiner/Spiner'
+import { ErrorMessage } from '../../../../components/ErrorMessage/ErrorMessage'
+import { LoginProps } from '@/presentation/pages/Login/interface'
+import { useLogin } from '../../useLogin'
+import { ButtonSubmit } from '@/presentation/components/ButtonSubmit'
 
 export const Form: React.FC<LoginProps> = ({ validation, authentication, saveAccessToken }) => {
-	const { changeInput, form, onSubmit } = useLogin({ validation, authentication, saveAccessToken });
+	const { changeInput, form, onSubmit, isDisabledButton } = useLogin({ validation, authentication, saveAccessToken })
 	return (
 		<form
 			className="flex flex-col w-[500px] mx-auto bg-white p-8 rounded-xl self-center shadow-md"
@@ -33,14 +34,7 @@ export const Form: React.FC<LoginProps> = ({ validation, authentication, saveAcc
 				value={form.password}
 				onChange={e => changeInput(e)}
 			/>
-			<button
-				type="submit"
-				data-testid="submit"
-				disabled={!!form.emailError || !!form.passwordError}
-				className="bg-primary text-white rounded-xl text-lg border-none leading-[60px] hover:opacity-90 mb-6 disabled:opacity-80"
-			>
-				ENTRAR
-			</button>
+			<ButtonSubmit disabled={isDisabledButton} />
 			<div data-testid="error-wrap">
 				{form.main && <ErrorMessage isError={form.main} />}
 				{form.isLoading && <Spiner />}
@@ -49,5 +43,5 @@ export const Form: React.FC<LoginProps> = ({ validation, authentication, saveAcc
 				<a href="">Criar Conta</a>
 			</div>
 		</form>
-	);
-};
+	)
+}
