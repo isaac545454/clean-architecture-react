@@ -1,23 +1,28 @@
 import { render, cleanup, waitFor, fireEvent } from '@testing-library/react'
 import { SignUp } from '.'
-import { SimulateValidSubmit, SutTypes } from './interface'
+import { SimulateValidSubmit } from './interface'
 import * as Helper from '@/presentation/test/form-helper'
-import { ValidationSpy } from '@/presentation/test'
+import { SaveAcessTokenMock, ValidationSpy } from '@/presentation/test'
 import { faker } from '@faker-js/faker'
 import { AddAccountSpy } from '@/presentation/test/mock-add-account'
 import { EmailInUserError } from '@/Domain/error'
 
-const makeSut = (errorMessage?: string): SutTypes => {
+const makeSut = (errorMessage?: string) => {
 	const validationSpy = new ValidationSpy()
 	const addAccountSpy = new AddAccountSpy()
+	const saveAcessTokenMock = new SaveAcessTokenMock()
+
 	if (errorMessage) {
 		validationSpy.errorMessage = errorMessage
 	}
-	const sut = render(<SignUp validation={validationSpy} addAccount={addAccountSpy} />)
+	const sut = render(
+		<SignUp validation={validationSpy} addAccount={addAccountSpy} saveAccessToken={saveAcessTokenMock} />,
+	)
 	return {
 		sut,
 		validationSpy,
 		addAccountSpy,
+		saveAcessTokenMock,
 	}
 }
 
@@ -176,9 +181,14 @@ describe('<SignUp />', () => {
 	it(' shold present error if addAccount fails ', async () => {
 		const { sut, addAccountSpy } = makeSut()
 		const invalidCredencialsError = new EmailInUserError()
-		jest.spyOn(addAccountSpy, 'add').mockReturnValueOnce(Promise.reject(invalidCredencialsError))
+		jest.spyOn(addAccountSpy, 'add').mockRejectedValueOnce(invalidCredencialsError)
 		await simulateValidSubmit({ sut })
 		Helper.testElementText({ fieldName: 'main-error', sut, text: invalidCredencialsError.message })
 		Helper.testChildCount({ count: 1, sut, fieldName: 'error-wrap' })
+	})
+	it(' shold call SaveAcessToken on sucess', async () => {
+		const { sut, addAccountSpy, saveAcessTokenMock } = makeSut()
+		await simulateValidSubmit({ sut })
+		expect(saveAcessTokenMock.acessToken).toBe(addAccountSpy.account.accessToken)
 	})
 })
