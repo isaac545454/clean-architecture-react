@@ -9,12 +9,18 @@ export const useSignUp = ({ validation, addAccount, saveAccessToken }: SignUpPro
 
 	const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const field = e.target.name
-		const value = { [field]: e.target.value }
+		const value = e.target.value
+		const values = {
+			name: field === 'name' ? value : form.name,
+			email: field === 'email' ? value : form.email,
+			password: field === 'password' ? value : form.password,
+			confirmation: field === 'confirmation' ? value : form.confirmation,
+		}
 		setForm(pre => {
 			return {
 				...pre,
 				[e.target.name]: e.target.value,
-				[`${e.target.name}Error`]: validation.validate(field, value),
+				[`${e.target.name}Error`]: validation.validate(field, values),
 			}
 		})
 	}
