@@ -53,7 +53,7 @@ export const Form: React.FC<SignUpProps> = ({ validation, addAccount, saveAccess
 				value={form.confirmation}
 				onChange={e => changeInput(e)}
 			/>
-			<ButtonSubmit disabled={isDisabledButton} />
+			<ButtonSubmit disabled={isDisabledButton}>CADASTRAR</ButtonSubmit>
 			<div data-testid="error-wrap">
 				{form.main && <ErrorMessage isError={form.main} />}
 				{form.isLoading && <Spiner />}

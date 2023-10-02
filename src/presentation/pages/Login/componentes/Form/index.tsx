@@ -34,7 +34,7 @@ export const Form: React.FC<LoginProps> = ({ validation, authentication, saveAcc
 				value={form.password}
 				onChange={e => changeInput(e)}
 			/>
-			<ButtonSubmit disabled={isDisabledButton} />
+			<ButtonSubmit disabled={isDisabledButton}>ENTRAR</ButtonSubmit>
 			<div data-testid="error-wrap">
 				{form.main && <ErrorMessage isError={form.main} />}
 				{form.isLoading && <Spiner />}
