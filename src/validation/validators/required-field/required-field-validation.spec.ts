@@ -1,18 +1,20 @@
-import { RequiredFieldError } from '../../errors/required-field-error';
-import { RequiredFieldValidation } from './required-field-validation';
-import { faker } from '@faker-js/faker';
+import { RequiredFieldError } from '../../errors/required-field-error'
+import { RequiredFieldValidation } from './required-field-validation'
+import { faker } from '@faker-js/faker'
 
-const makeSut = () => ({ sut: new RequiredFieldValidation(faker.animal.cat()) });
+const makeSut = (field: string) => ({ sut: new RequiredFieldValidation(field) })
 
 describe('RequiredFieldValidation', () => {
 	test('should return error if field is empty', () => {
-		const { sut } = makeSut();
-		const error = sut.validate('');
-		expect(error).toEqual(new RequiredFieldError());
-	});
+		const field = faker.animal.cat()
+		const { sut } = makeSut(field)
+		const error = sut.validate({ [field]: '' })
+		expect(error).toEqual(new RequiredFieldError())
+	})
 	test('should return false if field is not empty', () => {
-		const { sut } = makeSut();
-		const error = sut.validate(faker.animal.cat());
-		expect(error).toBeFalsy();
-	});
-});
+		const field = faker.animal.cat()
+		const { sut } = makeSut(field)
+		const error = sut.validate({ [field]: faker.animal.cat() })
+		expect(error).toBeFalsy()
+	})
+})

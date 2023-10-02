@@ -8,11 +8,13 @@ export const useLogin = ({ validation, authentication, saveAccessToken }: LoginP
 	const isDisabledButton = !!form.emailError || !!form.passwordError
 
 	const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const field = e.target.name
+		const value = { [field]: e.target.value }
 		setForm(pre => {
 			return {
 				...pre,
 				[e.target.name]: e.target.value,
-				[`${e.target.name}Error`]: validation.validate(e.target.name, e.target.value),
+				[`${e.target.name}Error`]: validation.validate(field, value),
 			}
 		})
 	}

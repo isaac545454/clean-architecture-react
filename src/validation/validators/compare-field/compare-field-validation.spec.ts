@@ -1,19 +1,29 @@
-import { InvalidFielError } from '@/validation/errors';
-import { CompareFieldsValidation } from './compare-field-validation';
-import { faker } from '@faker-js/faker';
+import { InvalidFielError } from '@/validation/errors'
+import { CompareFieldsValidation } from './compare-field-validation'
+import { faker } from '@faker-js/faker'
 
-const makeSut = (valueToCompare: string) => ({ sut: new CompareFieldsValidation(faker.animal.cat(), valueToCompare) });
+const makeSut = (field: string, valueToCompare: string) => ({ sut: new CompareFieldsValidation(field, valueToCompare) })
 
 describe('CompareFieldsValidation', () => {
 	test('should return error if compare is invalid', () => {
-		const { sut } = makeSut(faker.database.mongodbObjectId());
-		const error = sut.validate(faker.database.mongodbObjectId());
-		expect(error).toEqual(new InvalidFielError());
-	});
+		const field = faker.animal.cat()
+		const valueToCompare = faker.database.mongodbObjectId()
+		const { sut } = makeSut(field, valueToCompare)
+		const error = sut.validate({
+			[field]: faker.database.mongodbObjectId(),
+			[valueToCompare]: faker.database.mongodbObjectId(),
+		})
+		expect(error).toEqual(new InvalidFielError())
+	})
 	test('should return falsy if compare is valid', () => {
-		const valueToCompare = faker.database.mongodbObjectId();
-		const { sut } = makeSut(valueToCompare);
-		const error = sut.validate(valueToCompare);
-		expect(error).toBeFalsy();
-	});
-});
+		const valueToCompare = faker.database.mongodbObjectId()
+		const field = faker.animal.cat()
+		const value = faker.database.mongodbObjectId()
+		const { sut } = makeSut(field, valueToCompare)
+		const error = sut.validate({
+			[field]: value,
+			[valueToCompare]: value,
+		})
+		expect(error).toBeFalsy()
+	})
+})

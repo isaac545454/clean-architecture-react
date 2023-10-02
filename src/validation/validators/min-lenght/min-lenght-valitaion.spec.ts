@@ -1,18 +1,20 @@
-import { InvalidFielError } from '@/validation/errors';
-import { MinLenthValidation } from './min-lenght-valitaion';
-import { faker } from '@faker-js/faker';
+import { InvalidFielError } from '@/validation/errors'
+import { MinLenthValidation } from './min-lenght-valitaion'
+import { faker } from '@faker-js/faker'
 
-const makeSut = () => ({ sut: new MinLenthValidation(faker.database.column(), 5) });
+const makeSut = (field: string) => ({ sut: new MinLenthValidation(field, 5) })
 
 describe('minLengthValidation', () => {
 	test('should return Error if value is invalid', () => {
-		const { sut } = makeSut();
-		const error = sut.validate('124');
-		expect(error).toEqual(new InvalidFielError());
-	});
+		const field = faker.database.column()
+		const { sut } = makeSut(field)
+		const error = sut.validate({ [field]: '124' })
+		expect(error).toEqual(new InvalidFielError())
+	})
 	test('should return falsy if value is invalid', () => {
-		const { sut } = makeSut();
-		const error = sut.validate('12345');
-		expect(error).toBeFalsy();
-	});
-});
+		const field = faker.database.column()
+		const { sut } = makeSut(field)
+		const error = sut.validate({ [field]: '12345' })
+		expect(error).toBeFalsy()
+	})
+})

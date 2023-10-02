@@ -1,10 +1,10 @@
-import { InvalidFielError } from '@/validation/errors';
+import { InvalidFielError } from '@/validation/errors'
 
 export class CompareFieldsValidation {
 	constructor(readonly field: string, private readonly valueToCompare: string) {}
 
-	validate(value: string): Error | null {
-		if (value !== this.valueToCompare) return new InvalidFielError();
-		return null;
+	validate(input: object): Error | null {
+		if (input[this.field] !== input[this.valueToCompare]) return new InvalidFielError()
+		return null
 	}
 }
