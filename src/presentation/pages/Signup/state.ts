@@ -3,10 +3,10 @@ export const StateFormValue = {
 	name: '',
 	email: '',
 	password: '',
-	confirmation: '',
+	passwordConfirmation: '',
 	emailError: 'campo obrigatorio',
 	passwordError: 'campo obrigatorio',
 	nameError: 'campo obrigatorio',
-	confirmationError: 'campo obrigatorio',
+	passwordConfirmationError: 'campo obrigatorio',
 	main: '',
 }

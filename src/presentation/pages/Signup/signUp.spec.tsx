@@ -31,14 +31,14 @@ export const simulateValidSubmit = async ({
 	email = faker.internet.email(),
 	password,
 	name = faker.person.firstName(),
-	confirmation,
+	passwordConfirmation,
 }: SimulateValidSubmit): Promise<void> => {
 	const { getByTestId } = sut
 	const passwordGenerate = faker.internet.password()
 	Helper.populateField({ sut, fielName: 'name', value: name })
 	Helper.populateField({ sut, fielName: 'email', value: email })
 	Helper.populateField({ sut, fielName: 'password', value: password ?? passwordGenerate })
-	Helper.populateField({ sut, fielName: 'confirmation', value: confirmation ?? passwordGenerate })
+	Helper.populateField({ sut, fielName: 'passwordConfirmation', value: passwordConfirmation ?? passwordGenerate })
 	const Form = getByTestId('form')
 	fireEvent.submit(Form)
 	await waitFor(() => Form)
@@ -68,7 +68,7 @@ describe('<SignUp />', () => {
 		})
 		Helper.testStatusForFiel({
 			sut,
-			fielName: 'confirmation',
+			fielName: 'passwordConfirmation',
 			errorMessage: required,
 		})
 	})
@@ -93,8 +93,8 @@ describe('<SignUp />', () => {
 	it('Should call confirmation validation with correct fails', () => {
 		const validateError = 'campo obrigatorio'
 		const { sut } = makeSut(validateError)
-		Helper.populateField({ sut, fielName: 'confirmation' })
-		Helper.testStatusForFiel({ sut, fielName: 'confirmation', errorMessage: validateError })
+		Helper.populateField({ sut, fielName: 'passwordConfirmation' })
+		Helper.testStatusForFiel({ sut, fielName: 'passwordConfirmation', errorMessage: validateError })
 	})
 	it('Should show valid name state if validation succeeds', () => {
 		const { sut } = makeSut()
@@ -122,10 +122,10 @@ describe('<SignUp />', () => {
 	})
 	it('Should show valid confirmation state if validation succeeds', () => {
 		const { sut } = makeSut()
-		Helper.populateField({ sut, fielName: 'confirmation' })
+		Helper.populateField({ sut, fielName: 'passwordConfirmation' })
 		Helper.testStatusForFiel({
 			sut,
-			fielName: 'confirmation',
+			fielName: 'passwordConfirmation',
 		})
 	})
 	it('shold enabled submit button if form is valid', () => {
@@ -133,7 +133,7 @@ describe('<SignUp />', () => {
 		Helper.populateField({ sut, fielName: 'name' })
 		Helper.populateField({ sut, fielName: 'email' })
 		Helper.populateField({ sut, fielName: 'password' })
-		Helper.populateField({ sut, fielName: 'confirmation' })
+		Helper.populateField({ sut, fielName: 'passwordConfirmation' })
 		Helper.testButtonIsDisabled({ isDisabled: false, fieldName: 'submit', sut })
 	})
 	it(' shold show spinner on submit', async () => {
@@ -147,7 +147,7 @@ describe('<SignUp />', () => {
 			name: faker.person.firstName(),
 			email: faker.internet.email(),
 			password: CreatedPassword,
-			confirmation: CreatedPassword,
+			passwordConfirmation: CreatedPassword,
 		}
 		const { sut, addAccountSpy } = makeSut()
 
@@ -156,7 +156,7 @@ describe('<SignUp />', () => {
 			email: createUser.email,
 			password: createUser.password,
 			name: createUser.name,
-			confirmation: createUser.confirmation,
+			passwordConfirmation: createUser.passwordConfirmation,
 		})
 
 		expect(addAccountSpy.params).toEqual(createUser)

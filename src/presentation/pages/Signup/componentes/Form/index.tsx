@@ -45,12 +45,12 @@ export const Form: React.FC<SignUpProps> = ({ validation, addAccount, saveAccess
 			/>
 			<Input
 				type="password"
-				name="confirmation"
+				name="passwordConfirmation"
 				placeholder="repita sua senha"
-				testid="confirmation-status"
-				data-testid="confirmation"
-				title={form.confirmationError}
-				value={form.confirmation}
+				testid="passwordConfirmation-status"
+				data-testid="passwordConfirmation"
+				title={form.passwordConfirmationError}
+				value={form.passwordConfirmation}
 				onChange={e => changeInput(e)}
 			/>
 			<ButtonSubmit disabled={isDisabledButton}>CADASTRAR</ButtonSubmit>

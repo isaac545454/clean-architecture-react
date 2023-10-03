@@ -1,11 +1,14 @@
 import { useState } from 'react'
+// import { useNavigate } from 'react-router-dom'
 import { StateFormValue } from './state'
 import { SignUpProps } from './interface'
 
 export const useSignUp = ({ validation, addAccount, saveAccessToken }: SignUpProps) => {
 	const [form, setForm] = useState(StateFormValue)
+	// const navigate = useNavigate()
 
-	const isDisabledButton = !!form.emailError || !!form.passwordError || !!form.nameError || !!form.confirmationError
+	const isDisabledButton =
+		!!form.emailError || !!form.passwordError || !!form.nameError || !!form.passwordConfirmationError
 
 	const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const field = e.target.name
@@ -14,7 +17,7 @@ export const useSignUp = ({ validation, addAccount, saveAccessToken }: SignUpPro
 			name: field === 'name' ? value : form.name,
 			email: field === 'email' ? value : form.email,
 			password: field === 'password' ? value : form.password,
-			confirmation: field === 'confirmation' ? value : form.confirmation,
+			confirmation: field === 'confirmation' ? value : form.passwordConfirmation,
 		}
 		setForm(pre => {
 			return {
@@ -28,7 +31,7 @@ export const useSignUp = ({ validation, addAccount, saveAccessToken }: SignUpPro
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 
-		if (!form.email || !form.confirmation || !form.password || !form.name || form.isLoading) return
+		if (!form.email || !form.passwordConfirmation || !form.password || !form.name || form.isLoading) return
 
 		try {
 			setForm(preview => {
@@ -41,9 +44,10 @@ export const useSignUp = ({ validation, addAccount, saveAccessToken }: SignUpPro
 				email: form.email,
 				name: form.name,
 				password: form.password,
-				confirmation: form.confirmation,
+				passwordConfirmation: form.passwordConfirmation,
 			})
 			await saveAccessToken.save(account.accessToken)
+			// navigate('/')
 		} catch (err: any) {
 			setForm(prev => ({
 				...prev,

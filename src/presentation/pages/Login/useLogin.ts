@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { StateFormValue } from './componentes/Form/state'
+// import { useNavigate } from 'react-router-dom'
 import { LoginProps } from '@/presentation/pages/Login/interface'
 
 export const useLogin = ({ validation, authentication, saveAccessToken }: LoginProps) => {
 	const [form, setForm] = useState(StateFormValue)
+	// const navigate = useNavigate()
 
 	const isDisabledButton = !!form.emailError || !!form.passwordError
 
@@ -33,6 +35,7 @@ export const useLogin = ({ validation, authentication, saveAccessToken }: LoginP
 				password: form.password,
 			})
 			await saveAccessToken.save(account.accessToken)
+			// navigate('/')
 		} catch (err: any) {
 			setForm(prev => ({
 				...prev,

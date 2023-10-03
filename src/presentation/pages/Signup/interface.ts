@@ -13,5 +13,5 @@ export type SimulateValidSubmit = {
 	email?: string
 	password?: string
 	name?: string
-	confirmation?: string
+	passwordConfirmation?: string
 }
