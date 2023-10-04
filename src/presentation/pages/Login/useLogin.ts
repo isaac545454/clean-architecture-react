@@ -39,8 +39,12 @@ export const useLogin = ({ validation, authentication, saveAccessToken }: LoginP
 		} catch (err: any) {
 			setForm(prev => ({
 				...prev,
-				isLoading: false,
 				main: err.message,
+			}))
+		} finally {
+			setForm(prev => ({
+				...prev,
+				isLoading: false,
 			}))
 		}
 	}

@@ -51,4 +51,19 @@ describe('<Login />', () => {
 
 		cy.url().should('eq', baseUrl)
 	})
+	it('should  present save acessToken if valid credentials are provided ', () => {
+		cy.get('[data-testid="email"]').type('teste@teste.com')
+		cy.get('[data-testid="password"]').type('12345')
+		cy.get('[data-testid="submit"]').click()
+		cy.get('[data-testid="error-wrap"]')
+			.get('[data-testid="spinner"]')
+			.should('exist')
+			.get('[data-testid="main-error"]')
+			.should('not.exist')
+			.get('[data-testid="spinner"]')
+			.should('not.exist')
+		cy.window().then(w => {
+			assert.isOk(w.localStorage.getItem('acessToken'))
+		})
+	})
 })
