@@ -35,7 +35,11 @@ describe('<Login />', () => {
 		cy.get('[data-testid="submit"]').should('not.have.attr', 'disabled')
 		cy.get('[data-testid="error-wrap"]').should('not.have.descendants')
 	})
-	it('should present error if invalid credentials are provided ', () => {
+	it('should present invlaidCredentialsError on 401', () => {
+		cy.intercept('POST', '/login', {
+			status: 401,
+			body: { error: faker.animal.cat() },
+		}).as('requestLoginFail')
 		cy.get('[data-testid="email"]').type(faker.internet.email())
 		cy.get('[data-testid="password"]').type(faker.internet.password())
 		cy.get('[data-testid="submit"]').click()
@@ -48,17 +52,35 @@ describe('<Login />', () => {
 			.should('not.exist')
 			.get('[data-testid="main-error"]')
 			.should('exist')
+		cy.url().should('eq', baseUrl)
+	})
+	it('should present UnexpectedError on 400', () => {
+		cy.intercept('POST', '/login', {
+			status: 400,
+			body: { error: faker.animal.cat() },
+		}).as('requestLoginFail')
+		cy.get('[data-testid="email"]').type(faker.internet.email())
+		cy.get('[data-testid="password"]').type(faker.internet.password())
+		cy.get('[data-testid="submit"]').click()
+		cy.get('[data-testid="error-wrap"]')
+			.get('[data-testid="spinner"]')
+			.should('not.exist')
+			.get('[data-testid="main-error"]')
+			.should('exist')
 
 		cy.url().should('eq', baseUrl)
 	})
 	it('should  present save acessToken if valid credentials are provided ', () => {
+		cy.intercept('POST', 'login', {
+			status: 200,
+			body: { accessToken: faker.database.mongodbObjectId() },
+		})
 		cy.get('[data-testid="email"]').type('teste@teste.com')
 		cy.get('[data-testid="password"]').type('12345')
 		cy.get('[data-testid="submit"]').click()
 		cy.get('[data-testid="error-wrap"]')
 			.get('[data-testid="spinner"]')
-			.should('exist')
-			.get('[data-testid="main-error"]')
+
 			.should('not.exist')
 			.get('[data-testid="spinner"]')
 			.should('not.exist')

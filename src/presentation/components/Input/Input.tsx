@@ -1,9 +1,9 @@
-import { forwardRef } from 'react';
-import { InputProps } from './types';
-import { styles } from './styles';
+import { forwardRef } from 'react'
+import { InputProps } from './types'
+import { styles } from './styles'
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-	const { title, testid, ...res } = props;
+	const { title, testid, ...res } = props
 
 	return (
 		<div className="relative">
@@ -16,5 +16,5 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 				{title ? '🔴' : '🟢'}
 			</span>
 		</div>
-	);
-});
+	)
+})
